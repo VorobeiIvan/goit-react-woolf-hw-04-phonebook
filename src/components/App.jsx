@@ -9,21 +9,24 @@ import './main.css';
 const App = () => {
   const [contacts, setContacts] = useState([]);
   const [filter, setFilter] = useState('');
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const localContacts = localStorage.getItem('contacts');
     if (localContacts) {
       setContacts(JSON.parse(localContacts));
+      setLoaded(true);
     }
   }, []);
-
   useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
+    if (loaded) {
+      localStorage.setItem('contacts', JSON.stringify(contacts));
+    }
+  }, [contacts, loaded]);
 
   const formSubmitHandler = data => {
     const { name } = data;
-    const isExist = contacts.some(
+    const isExist = contacts.find(
       contact => contact.name.toLowerCase() === name.toLowerCase()
     );
 
