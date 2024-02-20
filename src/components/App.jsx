@@ -13,19 +13,17 @@ const App = () => {
   useEffect(() => {
     const localContacts = localStorage.getItem('contacts');
     if (localContacts) {
-      this.setState({ contacts: JSON.parse(localContacts) });
+      setContacts(JSON.parse(localContacts));
     }
+  }, []);
 
-    return () => {
-      if (contacts.length) {
-        localStorage.setItem('contacts', JSON.stringify(contacts));
-      }
-    };
+  useEffect(() => {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
   const formSubmitHandler = data => {
     const { name } = data;
-    const isExist = contacts.find(
+    const isExist = contacts.some(
       contact => contact.name.toLowerCase() === name.toLowerCase()
     );
 
@@ -34,19 +32,17 @@ const App = () => {
       return;
     }
 
-    setContacts(prevState => ({
-      contacts: [...prevState.contacts, { ...data, id: nanoid() }],
-    }));
+    setContacts(prevContacts => [...prevContacts, { ...data, id: nanoid() }]);
   };
 
   const changeFilter = event => {
-    setFilter({ filter: event.target.value });
+    setFilter(event.target.value);
   };
 
   const deleteContact = id => {
-    setContacts(prevState => ({
-      contacts: prevState.contacts.filter(contact => contact.id !== id),
-    }));
+    setContacts(prevContacts =>
+      prevContacts.filter(contact => contact.id !== id)
+    );
   };
 
   const filteredContacts = contacts.filter(contact =>
@@ -56,7 +52,7 @@ const App = () => {
   return (
     <div className="container">
       <Section title="Phonebook">
-        <ContactForm contacts={contacts} onSubmit={formSubmitHandler} />
+        <ContactForm onSubmit={formSubmitHandler} />
       </Section>
       <Section title="Contacts">
         <Filter value={filter} onChange={changeFilter} />

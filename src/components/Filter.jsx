@@ -1,4 +1,4 @@
-const Filter = ({ filter, onChange }) => {
+const Filter = ({ value, onChange }) => {
   return (
     <div className="wrapper">
       <label className="label">Find contact by name</label>
@@ -6,7 +6,7 @@ const Filter = ({ filter, onChange }) => {
         className="input"
         type="text"
         name="filter"
-        value={filter}
+        value={value}
         onChange={onChange}
         pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
         title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"

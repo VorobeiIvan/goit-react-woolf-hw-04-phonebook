@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import NameInput from './NameInput';
 import NumberInput from './NumberInput';
 
-const ContactForm = () => {
+const ContactForm = ({ onSubmit }) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
   const handleChange = event => {
-    const { name, value } = event.target;
+    const { name, value } = event.currentTarget;
     if (name === 'name') {
       setName(value);
     } else if (name === 'number') {
@@ -17,7 +17,7 @@ const ContactForm = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    props.onSubmit(name, number);
+    onSubmit({ name, number });
     reset();
   };
 
