@@ -1,41 +1,40 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import NameInput from './NameInput';
 import NumberInput from './NumberInput';
 
-class ContactForm extends Component {
-  state = {
-    name: '',
-    number: '',
+const ContactForm = () => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+
+  const handleChange = event => {
+    const { name, value } = event.target;
+    if (name === 'name') {
+      setName(value);
+    } else if (name === 'number') {
+      setNumber(value);
+    }
   };
 
-  handleChange = event => {
-    const { name, value } = event.currentTarget;
-    this.setState({ [name]: value });
-  };
-
-  handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
-    const { name, number } = this.state;
-    this.props.onSubmit({ name, number });
-    this.reset();
+    props.onSubmit(name, number);
+    reset();
   };
 
-  reset = () => {
-    this.setState({ name: '', number: '' });
+  const reset = () => {
+    setName('');
+    setNumber('');
   };
 
-  render() {
-    const { name, number } = this.state;
-    return (
-      <form className="form" onSubmit={this.handleSubmit}>
-        <NameInput value={name} onChange={this.handleChange} />
-        <NumberInput value={number} onChange={this.handleChange} />
-        <button className="btn-add" type="submit">
-          Add contact
-        </button>
-      </form>
-    );
-  }
-}
+  return (
+    <form className="form" onSubmit={handleSubmit}>
+      <NameInput value={name} onChange={handleChange} />
+      <NumberInput value={number} onChange={handleChange} />
+      <button className="btn-add" type="submit">
+        Add contact
+      </button>
+    </form>
+  );
+};
 
 export default ContactForm;

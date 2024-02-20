@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Filter = ({ filter, onChange }) => {
   return (
     <div className="wrapper">

@@ -1,5 +1,3 @@
-import React from 'react';
-
 const NumberInput = ({ value, onChange }) => {
   return (
     <div className="wrapper">
