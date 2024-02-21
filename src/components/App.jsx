@@ -7,22 +7,15 @@ import { nanoid } from 'nanoid';
 import './main.css';
 
 const App = () => {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState(() => {
+    const storedContacts = localStorage.getItem('contacts');
+    return storedContacts ? JSON.parse(storedContacts) : [];
+  });
   const [filter, setFilter] = useState('');
-  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    const localContacts = localStorage.getItem('contacts');
-    if (localContacts) {
-      setContacts(JSON.parse(localContacts));
-      setLoaded(true);
-    }
-  }, []);
-  useEffect(() => {
-    if (loaded) {
-      localStorage.setItem('contacts', JSON.stringify(contacts));
-    }
-  }, [contacts, loaded]);
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
 
   const formSubmitHandler = data => {
     const { name } = data;
